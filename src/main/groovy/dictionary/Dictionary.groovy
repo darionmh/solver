@@ -20,6 +20,15 @@ class Dictionary {
         return suggestions.subList(0, Math.min(suggestions.size(), count))
     }
 
+    List<String> guess(String s, int count){
+        List<String> suggestions = []
+        words.values().each {
+            suggestions.addAll(it.guess(s))
+        }
+
+        return suggestions.subList(0, Math.min(suggestions.size(), count))
+    }
+
     private Map indexWords(){
         Map<String, Index> index = [:]
 

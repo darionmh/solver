@@ -5,12 +5,19 @@ package dictionary
  */
 class DictionaryProject {
     public static void main(String[] args) {
-        Dictionary dict =  new Dictionary()
-        Scanner input = new Scanner(System.in)
-        String val = ""
-        while(val != "quit"){
-            val = input.nextLine()
-            println dict.autoComplete(val, 100)
-        }
+        Dictionary dict = new Dictionary()
+        println dict.autoComplete("appl", 100)
+        println dict.guess("c_m_u_e_", 100)
+    }
+
+
+    static List<Integer> getIndexesOfString(String str, String p) {
+        if (!str.contains(p)) return []
+
+        List<Integer> indexes = []
+        str.chars.eachWithIndex { char entry, int i -> if (entry.toString() == p) indexes.add(i) }
+
+        return indexes
+
     }
 }

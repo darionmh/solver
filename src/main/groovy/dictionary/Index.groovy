@@ -1,5 +1,7 @@
 package dictionary
 
+import java.util.stream.Stream
+
 /**
  * Created by Darion Higgins on 5/20/2019
  * TSO2438
@@ -42,9 +44,41 @@ class Index {
 
         return values
     }
-
+    final String wildcard = "_"
     List<String> guess(String val){
         // * is the wildcard character
+        List<Integer> indexes = getIndexesOfString(val, wildcard)
+        List<String> keyList = this.key.toList()
+        indexes.each {
+            if(it < keyList.size()) {
+                keyList.remove(it)
+                keyList.add(it, wildcard)
+            }
+        }
+        String key = keyList.join("")
+        List<String> values = []
 
+        if(key == val) {
+            values.addAll(words)
+
+            inner.values().each {
+                values.addAll(it.guess(val))
+            }
+        } else if(val.startsWith(key)){
+            inner.values().each {
+                values.addAll(it.guess(val))
+            }
+        }
+
+        return values
+    }
+
+    List<Integer> getIndexesOfString(String str, String p){
+        if(!str.contains(p)) return []
+
+        List<Integer> indexes = []
+        str.toList().eachWithIndex { String s, int i -> if(s == p) indexes.add(i) }
+
+        return indexes
     }
 }
