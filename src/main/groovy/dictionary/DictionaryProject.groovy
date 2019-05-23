@@ -8,16 +8,6 @@ class DictionaryProject {
         Dictionary dict = new Dictionary()
         println dict.autoComplete("appl", 100)
         println dict.guess("c_m_u_e_", 100)
-    }
-
-
-    static List<Integer> getIndexesOfString(String str, String p) {
-        if (!str.contains(p)) return []
-
-        List<Integer> indexes = []
-        str.chars.eachWithIndex { char entry, int i -> if (entry.toString() == p) indexes.add(i) }
-
-        return indexes
-
+        println dict.getLetterSums()
     }
 }

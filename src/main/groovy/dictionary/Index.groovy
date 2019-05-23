@@ -1,5 +1,7 @@
 package dictionary
 
+import utils.MapUtils
+
 import java.util.stream.Stream
 
 /**
@@ -80,5 +82,25 @@ class Index {
         str.toList().eachWithIndex { String s, int i -> if(s == p) indexes.add(i) }
 
         return indexes
+    }
+
+    Map<String, Integer> getLetterSum(){
+        Map<String, Integer> sums = [:]
+
+        words.forEach ({
+            it.toList().forEach({
+                if(!sums.containsKey(it)){
+                    sums.put(it, 1)
+                } else {
+                    sums.get(it)++
+                }
+            })
+        })
+
+        inner.values().forEach({
+            sums = MapUtils.join(sums, it.getLetterSum())
+        })
+
+        return sums
     }
 }

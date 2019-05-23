@@ -1,5 +1,7 @@
 package dictionary
 
+import utils.MapUtils
+
 /**
  * Created by Darion Higgins on 5/20/2019
  * TSO2438
@@ -47,5 +49,15 @@ class Dictionary {
 
     private List<String> loadWords(){
         return getClass().getResource('/words.txt').readLines()
+    }
+
+    Map<String, Integer> getLetterSums(){
+        Map<String, Integer> sums = [:]
+
+        words.values().forEach({
+            sums = MapUtils.join(sums, it.getLetterSum())
+        })
+
+        return sums
     }
 }
