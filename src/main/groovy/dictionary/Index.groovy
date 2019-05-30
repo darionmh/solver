@@ -2,16 +2,17 @@ package dictionary
 
 import utils.MapUtils
 
-import java.util.stream.Stream
-
 /**
  * Created by Darion Higgins on 5/20/2019
  * TSO2438
  */
 class Index {
-    String key
+    String key = ""
     List<String> words = []
     Map<String, Index> inner = [:]
+
+    Index() {
+    }
 
     Index(String key) {
         this.key = key
@@ -30,24 +31,25 @@ class Index {
         }
     }
 
-    List<String> autocomplete(String s){
-        List<String> values = []
+    List<String> search(String s){
+        List<String> results = []
         if(key.startsWith(s)) {
-            values.addAll(words)
+            results.addAll(words)
 
             inner.values().each {
-                values.addAll(it.autocomplete(s))
+                results.addAll(it.search(s))
             }
         } else if(s.startsWith(key)){
             inner.values().each {
-                values.addAll(it.autocomplete(s))
+                results.addAll(it.search(s))
             }
         }
 
-        return values
+        return results
     }
+
     final String wildcard = "_"
-    List<String> guess(String val){
+    List<String> searchWithWildcard(String val){
         // * is the wildcard character
         List<Integer> indexes = getIndexesOfString(val, wildcard)
         List<String> keyList = this.key.toList()
@@ -64,11 +66,11 @@ class Index {
             values.addAll(words)
 
             inner.values().each {
-                values.addAll(it.guess(val))
+                values.addAll(it.searchWithWildcard(val))
             }
         } else if(val.startsWith(key)){
             inner.values().each {
-                values.addAll(it.guess(val))
+                values.addAll(it.searchWithWildcard(val))
             }
         }
 
